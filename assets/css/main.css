@@ -1,0 +1,98 @@
+body, h1, h2, h3, h4, h5, h6, p {
+	padding: 0px;
+	margin: 0px;
+	font-family: Arial, Helvetica, "Open Sans";
+}
+body {
+	background: #fff;
+}
+
+/* header */
+.top{
+	position: fixed;
+    top: 0;
+    width: 100%;
+}
+.content{
+	margin: 100px 0 50px 0;
+}
+a:hover{
+	text-decoration: none;
+}
+span.navs a i{
+	margin-right: 3px;
+}
+span.navs a{
+	font-weight: bold;
+	color: #fff;
+	border-right: 1px solid #fff;
+	padding: 5px;
+}
+.searchbox{
+	border-bottom: 1px solid #333;
+}
+.banksearch{
+	background:transparent;
+	outline: none;
+	border:none;
+	text-transform: lowercase;
+}
+.form-control:focus{
+	background:transparent !important;
+	box-shadow:none !important;
+}
+.closespan{
+	cursor: pointer;
+	display: none;
+}
+a.eachbank{
+	color:#666;
+	text-transform: uppercase;
+}
+a.eachbank:hover{
+	transform: scale(0.9);
+	/* transition: 3s; */
+}
+
+/* branches */
+.branches{
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
+	color:#666
+}
+li a.eachbranch{
+	color:#666;
+	text-transform: uppercase;
+}
+
+/* branch info */
+.branchinfo{
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
+	color:#666
+}
+label{
+	color:#666;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+input,textarea{
+	text-transform: uppercase;
+}
+
+.addiv{
+	background:#dc3545!important;
+	color:#fff;
+	text-align: left;
+	padding: 3px 0 3px 10px;
+}
+.addiv a{
+	color:#fff;
+}
+.adbottom{
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+}
