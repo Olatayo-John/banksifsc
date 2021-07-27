@@ -2,9 +2,13 @@ body, h1, h2, h3, h4, h5, h6, p {
 	padding: 0px;
 	margin: 0px;
 	font-family: Arial, Helvetica, "Open Sans";
+	color: #294a63;
 }
 body {
 	background: #fff;
+}
+.btn:focus{
+	box-shadow:unset !important;
 }
 
 /* header */
@@ -14,7 +18,10 @@ body {
     width: 100%;
 }
 .content{
-	margin: 100px 0 50px 0;
+	margin: 90px 0 50px 0;
+}
+a{
+	color:#294a63;
 }
 a:hover{
 	text-decoration: none;
@@ -28,6 +35,42 @@ span.navs a{
 	border-right: 1px solid #fff;
 	padding: 5px;
 }
+
+/* popular banks */
+.popularbanksdiv{
+	/* border:2px solid red; */
+	/* background:gray; */
+}
+.popularbanksdiv a{
+	font-weight: bold;
+	color:#333;
+}
+.popularbanksdiv a:hover{
+	font-weight: bold;
+	transition: .4s;
+	border-bottom:1px solid #294a63;
+}
+
+/* filter */
+.filterdiv{
+	padding: 20px 0;
+	display: flex;
+}
+.eachinfodiv{
+	display: flex;
+	/* margin: auto 20px auto 0; */
+}
+.eachinfodiv label{
+	margin: auto 0;
+	font-weight: bold;
+}
+.filtersearch{
+	background:#294a63;
+	color: #fff;
+	border-radius: 0;
+}
+
+/* bank search */
 .searchbox{
 	border-bottom: 1px solid #333;
 }
@@ -45,13 +88,15 @@ span.navs a{
 	cursor: pointer;
 	display: none;
 }
+
+/* banks */
 a.eachbank{
-	color:#666;
+	color:#294a63;
 	text-transform: uppercase;
 }
 a.eachbank:hover{
-	transform: scale(0.9);
-	/* transition: 3s; */
+	/* transition: .3s; */
+	font-weight: bold;
 }
 
 /* branches */
@@ -59,11 +104,14 @@ a.eachbank:hover{
 	text-transform: uppercase;
 	text-align: center;
 	font-weight: bold;
-	color:#666
+	color:#294a63;
 }
 li a.eachbranch{
-	color:#666;
+	color:#294a63;
 	text-transform: uppercase;
+}
+li a.eachbranch:hover{
+	font-weight: bold;
 }
 
 /* branch info */
@@ -71,15 +119,15 @@ li a.eachbranch{
 	text-transform: uppercase;
 	text-align: center;
 	font-weight: bold;
-	color:#666
+	color: #294a63;
 }
 label{
-	color:#666;
+	color:#294a63;
 	font-weight: bold;
 	margin-bottom: 0;
 }
 input,textarea{
-	text-transform: uppercase;
+	text-transform: uppercase !important;
 }
 
 .addiv{

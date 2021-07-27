@@ -24,7 +24,7 @@
 		<div class="addiv adtop">
 			<a href="">Space for Google-AD top</a>
 		</div>
-		<div style='text-align: center; background: #333;overflow:hidden;padding:5px'>
+		<div style='text-align: center; background: #294a63;overflow:hidden;padding:5px'>
 			<span class="navs"><a href='<?php echo base_url('home'); ?>'><i class="fas fa-university"></i>Bank IFSC Code</a></span>
 			<span class="navs"><a href='<?php echo base_url('about'); ?>'><i class="fas fa-address-card"></i>About Us</a></span>
 			<span class="navs"><a href='<?php echo base_url('contact'); ?>'><i class="fas fa-address-book"></i>Contact Us</a></span>

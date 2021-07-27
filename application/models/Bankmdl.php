@@ -13,6 +13,22 @@ class Bankmdl extends CI_Model
         return $query;
     }
 
+    public function bankfilter($bank)
+    {
+        $this->db->select('adr1');
+        $this->db->where('name', $bank);
+        $this->db->order_by('adr1', 'asc');
+        $query = $this->db->get('data');
+        return $query;
+    }
+
+    public function bankfilterinfo_info($bank, $branch)
+    {
+        $this->db->where(array('name' => $bank, 'adr1' => $branch));
+        $query = $this->db->get('data')->row();
+        return $query;
+    }
+
     public function searchbank($searchval)
     {
         $this->db->like('name', $searchval);

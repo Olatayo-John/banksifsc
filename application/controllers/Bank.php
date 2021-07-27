@@ -13,6 +13,39 @@ class Bank extends CI_Controller
         $this->load->view('template/footer');
     }
 
+    public function bankfilter()
+    {
+        $this->load->model('Bankmdl');
+        $branchs = $this->Bankmdl->bankfilter($_POST['bank']);
+        if ($branchs->num_rows() <= '0') {
+            $data['status'] = "failure";
+        } else {
+            $data['status'] = "success";
+            $data['branchs'] = $branchs->result();
+        }
+
+        $data['token'] = $this->security->get_csrf_hash();
+        echo json_encode($data);
+    }
+
+    public function ifsc()
+    {
+        $bank = $_GET['bank'];
+        $branch = $_GET['branch'];
+
+        if (!empty($bank) && !empty($branch)) {
+            $this->load->model('Bankmdl');
+            $data['branchinfo'] = $this->Bankmdl->bankfilterinfo_info($bank, $branch);
+            $data['title'] = $bank . " " . $data['branchinfo']->adr1 . " IFSC Code";
+
+            $this->load->view('template/header', $data);
+            $this->load->view('bank/branch', $data);
+            $this->load->view('template/footer');
+        } else {
+            redirect();
+        }
+    }
+
     public function searchbank()
     {
         $this->load->model('Bankmdl');
