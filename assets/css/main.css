@@ -10,6 +10,9 @@ body {
 .btn:focus{
 	box-shadow:unset !important;
 }
+.form-control:focus {
+	border-color: #294a63;
+}
 
 /* header */
 .top{
@@ -58,10 +61,10 @@ span.navs a{
 }
 .eachinfodiv{
 	display: flex;
-	/* margin: auto 20px auto 0; */
+	margin: auto 20px auto 0;
 }
 .eachinfodiv label{
-	margin: auto 0;
+	margin: auto 10px;
 	font-weight: bold;
 }
 .filtersearch{
