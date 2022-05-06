@@ -38,8 +38,6 @@
 		<div class="form-group">
 			<label for="add">Address</label>
 			<textarea rows="3" readonly class="form-control"><?php echo $branchinfo->adr5 ?></textarea>
-
-			<!-- <textarea rows="5" readonly class="form-control"><?php echo $branchinfo->adr1 . ", " . $branchinfo->adr2 . "\n" . $branchinfo->adr3 . ", " .  $branchinfo->adr4 . "\n" . $branchinfo->adr5 ?></textarea> -->
 		</div>
 	</div>
 	<div class="col-md-6 addiv">

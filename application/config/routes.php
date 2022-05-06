@@ -63,3 +63,8 @@ $route['privacy'] = 'Pages/privacy';
 $route['banks'] = 'Bank/index';
 $route['branches/(:num)'] = 'Bank/branches/$1';
 $route['ifsc/(:num)'] = 'Bank/info/$1';
+
+
+$route['bank-branches'] = 'Bank/BankBranches';
+$route['branches-state'] = 'Bank/BranchesState';
+$route['state-city'] = 'Bank/StateCity';

@@ -10,26 +10,42 @@
 	<a href="<?php echo base_url("branches/225") ?>">YES Bank IFSC Codes</a>
 </div>
 
-<div class="filterdiv">
-	<div class="bnkdiv eachinfodiv form-group">
-		<label for="bank">Bank</label>
-		<input type="text" list="banks" class="form-control bank">
-		<datalist id="banks">
-			<?php foreach ($banks->result() as $bank) : ?>
-				<option bnkid="<?php echo $bank->id ?>"><?php echo $bank->name ?></option>
-			<?php endforeach; ?>
-		</datalist>
+<div class="filterdiv mb-3 mt-3">
+	<div class="form-group row">
+		<div class="col">
+			<label for="bank">Bank</label>
+			<input type="text" list="banks" class="form-control bank">
+			<datalist id="banks">
+				<?php foreach ($banks->result() as $bank) : ?>
+					<option bnkid="<?php echo $bank->id ?>"><?php echo $bank->name ?></option>
+				<?php endforeach; ?>
+			</datalist>
+		</div>
+		<div class="col">
+			<label for="branch">Branch</label>
+			<input type="text" list="branch" class="form-control branch">
+			<datalist id="branch">
+			</datalist>
+		</div>
 	</div>
 
-	<div class="brnchdiv eachinfodiv form-group">
-		<label for="branch">Branch</label>
-		<input type="text" list="branch" class="form-control branch" disabled style="cursor:not-allowed">
-		<datalist id="branch">
-		</datalist>
+	<div class="form-group row">
+		<div class="col">
+			<label for="state">State</label>
+			<input type="text" list="state" class="form-control state">
+			<datalist id="state">
+			</datalist>
+		</div>
+		<div class="col">
+			<label for="city">City</label>
+			<input type="text" list="city" class="form-control city">
+			<datalist id="city">
+			</datalist>
+		</div>
 	</div>
 
 	<div>
-		<button type="button" class="btn filtersearch">Search</button>
+		<button type="button" class="btn btn-block filtersearch">Search</button>
 	</div>
 </div>
 
@@ -56,29 +72,35 @@
 			var searchval = $(this).val();
 			var csrfName = $('.csrf_token').attr("name");
 			var csrfHash = $('.csrf_token').val();
-			$('.closespan').show();
 
-			$.ajax({
-				url: "<?php echo base_url("bank/searchbank") ?>",
-				method: "post",
-				dataType: "json",
-				data: {
-					[csrfName]: csrfHash,
-					searchval: searchval
-				},
-				success: function(data) {
-					$('.csrf_token').val(data.token);
-					var bnklength = data.banks.length;
-					$('.banksdiv').children().remove();
-					if (bnklength == 0) {
-						$('.banksdiv').append('<p class="text-center font-weight-bold" style="color:#294a63">Bank <span class="text-danger">"' + searchval + '"</span> not found</p>');
-					} else {
-						for (let index = 0; index < bnklength; index++) {
-							$('.banksdiv').append('<li><a href="branches/' + data.banks[index].id + '" class="eachbank font-weight-bolder" tasrget="_blank">' + data.banks[index].name + ' IFSC Code</a></li>');
+			if (searchval !== "" && searchval !== undefined && searchval !== null) {
+				$('.closespan').show();
+
+				$.ajax({
+					url: "<?php echo base_url("bank/searchbank") ?>",
+					method: "post",
+					dataType: "json",
+					data: {
+						[csrfName]: csrfHash,
+						searchval: searchval
+					},
+					success: function(data) {
+						$('.csrf_token').val(data.token);
+
+						var bnklength = data.banks.length;
+						$('.banksdiv').children().remove();
+						if (bnklength == 0) {
+							$('.banksdiv').append('<p class="text-center" style="color:#294a63">Bank <span class="text-danger">"' + searchval + '"</span> not found</p>');
+						} else {
+							for (let index = 0; index < bnklength; index++) {
+								$('.banksdiv').append('<li><a href="branches/' + data.banks[index].id + '" class="eachbank" tasrget="_blank">' + data.banks[index].name + '</a></li>');
+							}
 						}
 					}
-				}
-			})
+				});
+			} else {
+				$('.closespan').hide();
+			}
 		});
 
 		$(document).on('click', '.closespan', function() {
@@ -114,53 +136,107 @@
 			var csrfName = $('.csrf_token').attr("name");
 			var csrfHash = $('.csrf_token').val();
 
-			//disable and clear branch datalist till it loads
-			$(".branch").attr("disabled", "disabled").css('cursor', 'not-allowed');
-			$(".branch").val("");
-			$("#branch option").remove();
+			// console.log(bank);
 
-			$.ajax({
-				url: '<?php echo base_url('bank/bankfilter'); ?>',
-				method: 'post',
-				dataType: 'json',
-				data: {
-					bank: bank,
-					[csrfName]: csrfHash
-				},
-				success: function(data) {
-					if (data.status === 'success') {
-						for (let index = 0; index < data.branchs.length; index++) {
-							$("#branch").append("<option bnkid=''>" + data.branchs[index].adr1 + "</option>");
+			if (bank !== "" && bank !== undefined && bank !== null) {
+				$.ajax({
+					url: '<?php echo base_url('bank-branches'); ?>',
+					method: 'post',
+					dataType: 'json',
+					data: {
+						bank: bank,
+						[csrfName]: csrfHash
+					},
+					beforeSend: function() {
+						$(".branch,.state,.city").val("");
+						$("#branch,#state,#city").children().remove();
+					},
+					success: function(data) {
+						$('.csrf_token').val(data.token);
+
+						if (data.status === 'success') {
+							for (let index = 0; index < data.branchs.length; index++) {
+								$("#branch").append("<option>" + data.branchs[index].adr1 + "</option>");
+							}
 						}
-
-						$(".bank").css('border', '1px solid #ced4da');
-						$(".branch").removeAttr("disabled").css('cursor', 'text');
-						$(".branch").val("");
-					} else {
-						$(".branch").attr("disabled", "disabled").css('cursor', 'not-allowed');
-						$(".branch").val("");
 					}
-				}
-			});
-
+				});
+			}
 		});
 
-		$('.branch').click(function() {
-			var bank = $(".bank").val();
-			if (bank === "" || bank === null || bank === undefined) {
-				$(".branch").attr("disabled", "disabled").css('cursor', 'not-allowed');
-				$(".bank").css('border', '1px solid red');
-				$(".branch").val("");
-				return false;
-			} else {
-				$(".branch").removeAttr("disabled", "disabled").css('cursor', 'text');
-				$(".bank").css('border', '1px solid #ced4da');
+		$('.branch').change(function() {
+			var bank = $('.bank').val();
+			var branch = $(this).val();
+			var csrfName = $('.csrf_token').attr("name");
+			var csrfHash = $('.csrf_token').val();
+
+			if (branch !== "" && branch !== undefined && branch !== null) {
+				$.ajax({
+					url: '<?php echo base_url('branches-state'); ?>',
+					method: 'post',
+					dataType: 'json',
+					data: {
+						bank: bank,
+						branch: branch,
+						[csrfName]: csrfHash
+					},
+					beforeSend: function() {
+						$(".state,.city").val("");
+						$("#state,#city").children().remove();
+					},
+					success: function(data) {
+						$('.csrf_token').val(data.token);
+
+						if (data.status === 'success') {
+							for (let index = 0; index < data.states.length; index++) {
+								$("#state").append("<option>" + data.states[index].adr4 + "</option>");
+							}
+						}
+					}
+				});
+			}
+		});
+
+		$('.state').change(function() {
+			var bank = $('.bank').val();
+			var branch = $('.branch').val();
+			var state = $(this).val();
+			var csrfName = $('.csrf_token').attr("name");
+			var csrfHash = $('.csrf_token').val();
+
+			if (state !== "" && state !== undefined && state !== null) {
+				$.ajax({
+					url: '<?php echo base_url('state-city'); ?>',
+					method: 'post',
+					dataType: 'json',
+					data: {
+						bank: bank,
+						branch: branch,
+						state: state,
+						[csrfName]: csrfHash
+					},
+					beforeSend: function() {
+						$(".city").val("");
+						$("#city").children().remove();
+					},
+					success: function(data) {
+						$('.csrf_token').val(data.token);
+
+						if (data.status === 'success') {
+							for (let index = 0; index < data.cities.length; index++) {
+								$("#city").append("<option>" + data.cities[index].adr3 + "</option>");
+							}
+						}
+					}
+				});
 			}
 		});
 
 		$(document).on('click', '.filtersearch', function() {
 			var bank = $(".bank").val();
 			var branch = $(".branch").val();
+			var state = $(".state").val();
+			var city = $(".city").val();
 			var csrfName = $('.csrf_token').attr("name");
 			var csrfHash = $('.csrf_token').val();
 
@@ -170,6 +246,7 @@
 			} else {
 				$(".bank").css('border', '1px solid #ced4da');
 			}
+
 			if (branch === "" || branch === null) {
 				$(".branch").css('border', '1px solid red');
 				return false;
@@ -177,13 +254,25 @@
 				$(".branch").css('border', '1px solid #ced4da');
 			}
 
+			if (state === "" || state === null) {
+				$(".state").css('border', '1px solid red');
+				return false;
+			} else {
+				$(".state").css('border', '1px solid #ced4da');
+			}
+
+			if (city === "" || city === null) {
+				$(".city").css('border', '1px solid red');
+				return false;
+			} else {
+				$(".city").css('border', '1px solid #ced4da');
+			}
+
 			var url = "<?php echo base_url('bank/ifsc') ?>";
-			var urltwo = "?bank=" + bank + "&branch=" + branch + "";
+			var urltwo = "?bank=" + bank + "&branch=" + branch + "&state=" + state + "&city=" + city + "";
 			window.location.assign(url + urltwo);
 
-			console.log(bank);
-			console.log(branch);
-			console.log(url + urltwo);
+			// console.log(url + urltwo);
 		});
 	})
 </script>
